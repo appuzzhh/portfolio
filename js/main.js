@@ -2,12 +2,16 @@ const body = document.body;
 const themeToggle = document.createElement('button');
 themeToggle.className = 'theme-toggle';
 themeToggle.setAttribute('aria-label', 'Toggle dark mode');
-themeToggle.innerHTML = '☀';
 
 document.querySelector('.navbar').appendChild(themeToggle);
 
+// Default theme = Dark
 const savedTheme = localStorage.getItem('portfolio-theme');
-if (savedTheme === 'dark') {
+
+if (savedTheme === 'light') {
+  body.classList.remove('dark');
+  themeToggle.textContent = '☀';
+} else {
   body.classList.add('dark');
   themeToggle.textContent = '🌙';
 }
@@ -43,9 +47,14 @@ const setActiveLink = () => {
   const scrollPosition = window.scrollY + 120;
 
   sections.forEach((section) => {
-    if (scrollPosition >= section.offsetTop && scrollPosition < section.offsetTop + section.offsetHeight) {
+    if (
+      scrollPosition >= section.offsetTop &&
+      scrollPosition < section.offsetTop + section.offsetHeight
+    ) {
       navLinks.forEach((link) => {
-        const isActive = link.getAttribute('href') === `#${section.id}` || link.getAttribute('href') === `${section.id}.html`;
+        const isActive =
+          link.getAttribute('href') === `#${section.id}` ||
+          link.getAttribute('href') === `${section.id}.html`;
         link.classList.toggle('active', isActive);
       });
     }
@@ -66,7 +75,9 @@ navLinks.forEach((link) => {
   });
 });
 
-const revealItems = document.querySelectorAll('.about-preview, .projects-preview, .stats, .cta, .hero-card');
+const revealItems = document.querySelectorAll(
+  '.about-preview, .projects-preview, .stats, .cta, .hero-card'
+);
 
 const observer = new IntersectionObserver(
   (entries) => {
